@@ -28,7 +28,7 @@ public class MyBasicErrorController extends BasicErrorController {
 
     @Override
     public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {
-
+        
         HttpStatus status = getStatus(request);
         Map<String, Object> map = new HashMap<String, Object>(16);
         Map<String, Object> originalMsgMap = getErrorAttributes(request, getErrorAttributeOptions(request, MediaType.ALL));

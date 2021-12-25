@@ -18,6 +18,7 @@
         <openfeign.version>3.1.0</openfeign.version>
         <maven-compiler.version>3.8.1</maven-compiler.version>
         <fastjson.version>1.2.79</fastjson.version>
+        <commons-text.version>1.9</commons-text.version>
     </properties>
     <dependencies>
         <!-- 1. import-->
@@ -46,18 +47,25 @@
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
 
-        <!-- 5. import-->
+        <!-- 5. import spring cloud openfeign http client-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <version>${openfeign.version}</version>
         </dependency>
 
-        <!-- 6. import-->
+        <!-- 6. import json编解码-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
+        </dependency>
+
+        <!-- 7. import 字符串模板替换-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>${commons-text.version}</version>
         </dependency>
 
 

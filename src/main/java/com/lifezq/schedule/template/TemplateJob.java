@@ -1,5 +1,6 @@
 package com.lifezq.schedule.template;
 
+import com.lifezq.schedule.bo.params.Resources;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.common.TemplateParserContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -73,16 +74,27 @@ public class TemplateJob {
             "          imagePullPolicy: Always\n" +
             "          args:\n" +
             "            - --metadata=#{[metadata]}\n" +
+            "          resources:\n" +
+            "            requests:\n" +
+            "              memory: #{[requestsMemory]}\n" +
+            "              cpu: #{[requestsCpu]}\n" +
+            "            limits:\n" +
+            "              memory: #{[limitsMemory]}\n" +
+            "              cpu: #{[limitsCpu]}\n" +
             "      restartPolicy: Never\n" +
             "  backoffLimit: 1";
 
-    public static String setTemplateContentForJob(long jobId, String image, String metadata) throws IOException {
+    public static String setTemplateContentForJob(long jobId, String image, String metadata, Resources resources) throws IOException {
         ExpressionParser parser = new SpelExpressionParser();
         TemplateParserContext parserContext = new TemplateParserContext();
         Map<String, Object> params = new HashMap<>();
         params.put("jobId", jobId);
         params.put("image", image);
         params.put("metadata", metadata);
+        params.put("requestsMemory", resources.getRequests().getMemory());
+        params.put("requestsCpu", resources.getRequests().getCpu());
+        params.put("limitsMemory", resources.getLimits().getMemory());
+        params.put("limitsCpu", resources.getLimits().getCpu());
 
         String jobScheduleYamlFilename = String.format(jobScheduleYamlTpl, jobId);
         BufferedWriter out = new BufferedWriter(new FileWriter(jobScheduleYamlFilename));

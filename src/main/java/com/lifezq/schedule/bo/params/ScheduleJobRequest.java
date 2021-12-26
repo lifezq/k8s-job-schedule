@@ -1,7 +1,11 @@
 package com.lifezq.schedule.bo.params;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 
@@ -14,7 +18,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScheduleJobRequest implements Serializable {
@@ -23,4 +27,6 @@ public class ScheduleJobRequest implements Serializable {
     @JsonProperty(value = "job_name")
     private String jobName;
     private String image;
+    private String metadata;
+    private Resources resources;
 }

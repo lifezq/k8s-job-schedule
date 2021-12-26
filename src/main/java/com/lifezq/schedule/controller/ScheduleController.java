@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Package com.lifezq.schedule.controller
@@ -23,15 +25,20 @@ import java.io.IOException;
 @RequestMapping("/v1/schedule")
 @RestController
 public class ScheduleController {
+    private long jobId = 1;
     private Logger logger = LoggerFactory.getLogger(ScheduleController.class);
 
     @PostMapping("/job")
     public Response job(@RequestBody ScheduleJobRequest req) {
-        Response.ResponseBuilder response = Response.builder().data(req.getJobName() + ":" + req.getImage());
+        Map<String, Long> data = new HashMap<>();
+        data.put("job_id", jobId);
+        Response.ResponseBuilder response = Response.builder().data(data);
 
         try {
-            String templateContent = TemplateJob.setTemplateContentForJob(1, req.getImage(), req.getJobName());
+            String templateContent = TemplateJob.setTemplateContentForJob(
+                    jobId, req.getImage(), req.getMetadata(), req.getResources());
             logger.info("template content:{}", templateContent);
+            jobId++;
         } catch (IOException e) {
             response.returnCode(HttpStatus.BAD_REQUEST.value());
             response.returnMsg("get template content for job failed");

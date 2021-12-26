@@ -102,4 +102,8 @@ public class TemplateJob {
         out.close();
         return jobScheduleYamlFilename;
     }
+
+    public static String getTemplateYamlFilenameByJobId(long jobId) {
+        return String.format(jobScheduleYamlTpl, jobId);
+    }
 }

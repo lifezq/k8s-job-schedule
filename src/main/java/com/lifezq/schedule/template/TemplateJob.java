@@ -25,6 +25,7 @@ public class TemplateJob {
             "kind: PersistentVolume\n" +
             "metadata:\n" +
             "  name: job-pv-volume-#{[jobId]}\n" +
+            "  namespace: default\n" +
             "  labels:\n" +
             "    type: local\n" +
             "spec:\n" +
@@ -53,6 +54,7 @@ public class TemplateJob {
             "kind: Job\n" +
             "metadata:\n" +
             "  name: k8s-job-schedule-#{[jobId]}\n" +
+            "  namespace: default\n" +
             "spec:\n" +
             "  template:\n" +
             "    spec:\n" +

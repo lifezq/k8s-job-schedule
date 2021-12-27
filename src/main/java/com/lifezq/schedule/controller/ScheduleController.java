@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -28,8 +30,47 @@ import java.util.Map;
 @RequestMapping("/v1/schedule")
 @RestController
 public class ScheduleController {
-    private long jobId = 1;
+    private long jobId;
     private Logger logger = LoggerFactory.getLogger(ScheduleController.class);
+
+    ScheduleController() {
+
+        try {
+
+            String lastJobIdLabel = ".last.job.id";
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                logger.info("system exit jobid:{}", this.jobId);
+                File file = new File(lastJobIdLabel);
+                if (file.exists()) {
+                    FileOutputStream fo = null;
+                    try {
+                        fo = new FileOutputStream(file, false);
+                        fo.write(Long.toString(this.jobId).getBytes(StandardCharsets.UTF_8));
+                        fo.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }));
+
+            File file = new File(lastJobIdLabel);
+            if (!file.exists()) {
+                file.createNewFile();
+                FileOutputStream fo = new FileOutputStream(file, false);
+                this.jobId = 1;
+                fo.write(1);
+                fo.close();
+                return;
+            }
+
+            FileInputStream fi = new FileInputStream(file);
+            this.jobId = Long.parseLong(new String(fi.readAllBytes(),
+                    StandardCharsets.UTF_8)) + 1;
+            fi.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @PostMapping("/job")
     public Response job(@RequestBody ScheduleJobRequest req) {

@@ -4,8 +4,9 @@ import com.lifezq.schedule.base.Response;
 import com.lifezq.schedule.bo.params.ScheduleJobRequest;
 import com.lifezq.schedule.bo.params.ScheduleStatRequest;
 import com.lifezq.schedule.template.TemplateJob;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,22 +32,22 @@ import java.util.Map;
 @RestController
 public class ScheduleController {
     private long jobId;
-    private Logger logger = LoggerFactory.getLogger(ScheduleController.class);
+    private Logger logger = LogManager.getLogger(ScheduleController.class);
 
     ScheduleController() {
 
         try {
+
+            logger.printf(Level.INFO, "system running jobid:%s", " this.jobId");
+            logger.info("system running jobid:{}", this.jobId);
 
             String lastJobIdLabel = ".last.job.id";
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 logger.info("system exit jobid:{}", this.jobId);
                 File file = new File(lastJobIdLabel);
                 if (file.exists()) {
-                    FileOutputStream fo = null;
-                    try {
-                        fo = new FileOutputStream(file, false);
+                    try (FileOutputStream fo = new FileOutputStream(file, false)) {
                         fo.write(Long.toString(this.jobId).getBytes(StandardCharsets.UTF_8));
-                        fo.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -55,18 +56,19 @@ public class ScheduleController {
 
             File file = new File(lastJobIdLabel);
             if (!file.exists()) {
-                file.createNewFile();
-                FileOutputStream fo = new FileOutputStream(file, false);
-                this.jobId = 1;
-                fo.write(1);
-                fo.close();
+                if (file.createNewFile()) {
+                    try (FileOutputStream fo = new FileOutputStream(file, false)) {
+                        this.jobId = 1;
+                        fo.write(1);
+                    }
+                }
                 return;
             }
 
-            FileInputStream fi = new FileInputStream(file);
-            this.jobId = Long.parseLong(new String(fi.readAllBytes(),
-                    StandardCharsets.UTF_8)) + 1;
-            fi.close();
+            try (FileInputStream fi = new FileInputStream(file)) {
+                this.jobId = Long.parseLong(new String(fi.readAllBytes(),
+                        StandardCharsets.UTF_8)) + 1;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

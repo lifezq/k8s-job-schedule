@@ -7,6 +7,8 @@ import com.lifezq.schedule.template.TemplateJob;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +36,9 @@ import java.util.Map;
 public class ScheduleController {
     private long jobId;
     private Logger logger = LogManager.getLogger(ScheduleController.class);
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     ScheduleController() {
 
@@ -164,6 +170,17 @@ public class ScheduleController {
                 file.delete();
             }
         }
+        return response.build();
+    }
+
+    @PostMapping("/test")
+    public Response test() {
+        Response.ResponseBuilder response = Response.builder();
+
+        redisTemplate.opsForValue().set("bbb", "bbbvalue", Duration.ofSeconds(3600));
+        redisTemplate.expire("bbb", Duration.ofSeconds(60));
+        logger.info("key value:{}--expire:{}", redisTemplate.opsForValue().get("bbb"),
+                " expire:" + redisTemplate.getExpire("bbb"));
         return response.build();
     }
 }

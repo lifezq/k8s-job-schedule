@@ -28,9 +28,9 @@
     </Appenders>
     <Loggers>
         <Logger name="com.lifezq.schedule" level="debug" additivity="false">
-            <Filter type="ThreadContextMapFilter">
-                <KeyValuePair key="test" value="123"/>
-            </Filter>
+            <!--            <Filter type="ThreadContextMapFilter">-->
+            <!--                <KeyValuePair key="test" value="123"/>-->
+            <!--            </Filter>-->
             <AppenderRef ref="STDOUT"/>
         </Logger>
         <Root level="info">

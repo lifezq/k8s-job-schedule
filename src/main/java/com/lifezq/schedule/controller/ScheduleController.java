@@ -4,7 +4,6 @@ import com.lifezq.schedule.base.Response;
 import com.lifezq.schedule.bo.params.ScheduleJobRequest;
 import com.lifezq.schedule.bo.params.ScheduleStatRequest;
 import com.lifezq.schedule.template.TemplateJob;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +42,6 @@ public class ScheduleController {
     ScheduleController() {
 
         try {
-
-            logger.printf(Level.INFO, "system running jobid:%s", " this.jobId");
-            logger.info("system running jobid:{}", this.jobId);
 
             String lastJobIdLabel = ".last.job.id";
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -177,10 +173,11 @@ public class ScheduleController {
     public Response test() {
         Response.ResponseBuilder response = Response.builder();
 
-        redisTemplate.opsForValue().set("bbb", "bbbvalue", Duration.ofSeconds(3600));
-        redisTemplate.expire("bbb", Duration.ofSeconds(60));
-        logger.info("key value:{}--expire:{}", redisTemplate.opsForValue().get("bbb"),
-                " expire:" + redisTemplate.getExpire("bbb"));
+        String key = "k1";
+        redisTemplate.opsForValue().set(key, key + "_value", Duration.ofSeconds(3600));
+        redisTemplate.expire(key, Duration.ofSeconds(60));
+        logger.info("key value:{}--expire:{}", redisTemplate.opsForValue().get(key),
+                " expire:" + redisTemplate.getExpire(key));
         return response.build();
     }
 }

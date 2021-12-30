@@ -19,8 +19,7 @@
         <maven-compiler.version>3.8.1</maven-compiler.version>
         <fastjson.version>1.2.79</fastjson.version>
         <commons-text.version>1.9</commons-text.version>
-        <redis.version>2.6.2</redis.version>
-        <jedis.version>3.7.1</jedis.version>
+        <commons-pool2.version>2.11.1</commons-pool2.version>
     </properties>
     <dependencies>
         <!-- 1. import-->
@@ -76,11 +75,11 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
-        <!-- 9. import redis Jedis driver-->
+        <!-- 9. redis connect pool -->
         <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>${jedis.version}</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>${commons-pool2.version}</version>
         </dependency>
 
 

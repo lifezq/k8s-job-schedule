@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.lifezq.grpc.schedule.common";
+option java_outer_classname = "CommonProto";
+option objc_class_prefix = "COM";
+
+package  common;
+
+import "google/protobuf/any.proto";
+
+message CommonReponse{
+  int32 returnCode = 1;
+  string returnMsg = 2;
+  string returnUserMsg = 3;
+  google.protobuf.Any data = 4;
+  repeated google.protobuf.Any  list = 5;
+}

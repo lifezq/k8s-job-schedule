@@ -15,12 +15,17 @@
     <description>K8s job schedule project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
+        <parent.version>2.6.2</parent.version>
         <openfeign.version>3.1.0</openfeign.version>
         <maven-compiler.version>3.8.1</maven-compiler.version>
         <fastjson.version>1.2.79</fastjson.version>
         <commons-text.version>1.9</commons-text.version>
         <commons-pool2.version>2.11.1</commons-pool2.version>
         <os.detected.classifier>windows-x86_64</os.detected.classifier>
+        <grpc.version>1.43.1</grpc.version>
+        <annotations-api.version>6.0.53</annotations-api.version>
+        <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
+        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     </properties>
     <dependencies>
         <!-- 1. import-->
@@ -87,22 +92,22 @@
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-netty-shaded</artifactId>
-            <version>1.43.1</version>
+            <version>${grpc.version}</version>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-protobuf</artifactId>
-            <version>1.43.1</version>
+            <version>${grpc.version}</version>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-stub</artifactId>
-            <version>1.43.1</version>
+            <version>${grpc.version}</version>
         </dependency>
         <dependency> <!-- necessary for Java 9+ -->
             <groupId>org.apache.tomcat</groupId>
             <artifactId>annotations-api</artifactId>
-            <version>6.0.53</version>
+            <version>${annotations-api.version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- 10. import grpc end-->
@@ -150,6 +155,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${parent.version}</version>
                 <configuration>
                     <excludes>
                         <exclude>
@@ -163,7 +169,7 @@
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
-                <version>0.6.1</version>
+                <version>${protobuf-maven-plugin.version}</version>
                 <configuration>
                     <protocArtifact>com.google.protobuf:protoc:3.19.1:exe:${os.detected.classifier}</protocArtifact>
                     <pluginId>grpc-java</pluginId>
@@ -179,7 +185,16 @@
                 </executions>
             </plugin>
             <!-- 10. import grpc end -->
+
+            <!-- 11. import test plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
 </project>

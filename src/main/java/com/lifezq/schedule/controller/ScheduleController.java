@@ -34,7 +34,7 @@ import java.util.Map;
 @RestController
 public class ScheduleController {
     private long jobId;
-    private Logger logger = LogManager.getLogger(ScheduleController.class);
+    private static final Logger logger = LogManager.getLogger(ScheduleController.class);
 
     @Autowired
     private RedisTemplate redisTemplate;

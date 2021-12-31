@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.lifezq.grpc.schedule.protogen";
+option java_outer_classname = "ScheduleProto";
+option objc_class_prefix = "JOB";
+
+package protogen;
+
+import "common.proto";
+
+service Schedule {
+  rpc job (JobRequest) returns (common.CommonReponse) {}
+  rpc stat(StatRequest) returns(common.CommonReponse){}
+  rpc delete(StatRequest) returns(common.CommonReponse){}
+}
+
+message ResourcesLimits {
+  string memory = 1;
+  string cpu = 2;
+}
+
+message Resources {
+  ResourcesLimits requests = 1;
+  ResourcesLimits limits = 2;
+}
+
+message JobRequest {
+  string jobName = 1;
+  string image = 2;
+  string metadata = 3;
+  Resources resources = 4;
+}
+
+message StatRequest{
+  int64 jobId = 1;
+}
+
+message DeleteRequest{
+  int64 jobId = 1;
+}
+
+

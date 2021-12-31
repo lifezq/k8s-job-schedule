@@ -70,13 +70,13 @@ public class ScheduleServer {
             @Override
             public void run() {
                 // Use stderr here since the logger may have been reset by its JVM shutdown hook.
-                logger.error("*** grpc server shutting down gRPC server since JVM is shutting down");
+                logger.info("*** grpc server shutting down gRPC server since JVM is shutting down");
                 try {
                     ScheduleServer.this.stop();
                 } catch (InterruptedException e) {
                     e.printStackTrace(System.err);
                 }
-                logger.error("*** grpc server shut down");
+                logger.info("*** grpc server shut down");
             }
         });
     }

@@ -1,6 +1,5 @@
 package com.lifezq.schedule.bo.params;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +19,5 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScheduleStatRequest {
-    @JsonProperty("job_id")
     private long jobId;
 }

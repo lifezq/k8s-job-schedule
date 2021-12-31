@@ -103,7 +103,7 @@ public class ScheduleServer {
         public void job(JobRequest req, StreamObserver<CommonReponse> responseObserver) {
             logger.info("Grpc server Schedule.job recv:{}", req);
             Map<String, Long> data = new HashMap<>();
-            data.put("job_id", 22L);
+            data.put("jobId", 22L);
 
             CommonReponse reply = CommonReponse.newBuilder().setData(Any.newBuilder().setValue(
                     ByteString.copyFromUtf8(JSON.toJSONString(data))).build()).build();

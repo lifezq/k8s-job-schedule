@@ -79,7 +79,7 @@ public class ScheduleController {
     @PostMapping("/job")
     public Response job(@RequestBody ScheduleJobRequest req) {
         Map<String, Long> data = new HashMap<>();
-        data.put("job_id", jobId);
+        data.put("jobId", jobId);
         Response.ResponseBuilder response = Response.builder().data(data);
 
         try {

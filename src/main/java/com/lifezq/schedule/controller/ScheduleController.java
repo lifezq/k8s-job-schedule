@@ -4,6 +4,7 @@ import com.lifezq.schedule.base.Response;
 import com.lifezq.schedule.bo.params.ScheduleJobRequest;
 import com.lifezq.schedule.bo.params.ScheduleStatRequest;
 import com.lifezq.schedule.template.TemplateJob;
+import com.lifezq.schedule.tools.Tool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ public class ScheduleController {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private Tool tool;
 
     ScheduleController() {
 
@@ -178,6 +182,11 @@ public class ScheduleController {
         redisTemplate.expire(key, Duration.ofSeconds(60));
         logger.info("key value:{}--expire:{}", redisTemplate.opsForValue().get(key),
                 " expire:" + redisTemplate.getExpire(key));
+
+        for (int i = 0; i < 10; i++) {
+            tool.asyncExecutor();
+        }
+
         return response.build();
     }
 }

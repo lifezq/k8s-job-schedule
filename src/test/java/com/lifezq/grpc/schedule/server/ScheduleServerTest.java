@@ -5,7 +5,6 @@ import com.lifezq.grpc.schedule.protogen.JobRequest;
 import com.lifezq.grpc.schedule.protogen.Resources;
 import com.lifezq.grpc.schedule.protogen.ResourcesLimits;
 import com.lifezq.grpc.schedule.protogen.ScheduleGrpc;
-import com.lifezq.schedule.K8sJobScheduleApplication;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
@@ -25,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  * @Author ryan
  * @Date 2021/12/31
  */
-@SpringBootTest(classes = K8sJobScheduleApplication.class)
+@SpringBootTest(classes = ScheduleServer.class)
 public class ScheduleServerTest {
     @Value("${grpc.server.port:50001}")
     private int port;

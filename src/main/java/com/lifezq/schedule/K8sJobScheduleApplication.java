@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(basePackages = {"com.lifezq.grpc.schedule.server"})
+@ComponentScan(basePackages = {"com.lifezq"})
 @EnableFeignClients
 @SpringBootApplication
 public class K8sJobScheduleApplication {

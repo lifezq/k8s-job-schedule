@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  * @Package com.lifezq.grpc.schedule.server
  * @ClassName ScheduleServer
  * @Description TODO
- * @Author EDY
+ * @Author ryan
  * @Date 2021/12/31
  */
 @Service
